@@ -1,0 +1,18 @@
+# All object files
+*.o
+
+# IDE files
+/.idea
+/.vscode
+
+# OS
+.DS_Store
+
+# executables
+adventure
+tr
+mp2object
+mp2photo
+
+# Misc
+*.swp

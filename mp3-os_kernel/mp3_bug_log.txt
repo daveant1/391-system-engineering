@@ -1,0 +1,23 @@
+mp3 Bug Log
+
+~~~ mp3.1 ~~~
+Paging:
+Bug: video memory corrupted after init Paging (tests not showing output)
+Fix: forgot to add line page_table[VIDMEM_ADDRESS >> ADDRESS_SHIFT_KB].offset31_12 = 0xB8 mapping this page to the page table.
+Side fix: when setting up PT, it should be cached (C set to 1)
+
+Bug: PG disabled when running info mem
+Fix: add a frickin $ before 0x80000001 in orl statement - LITERALLY SPENT 5 HOURS ON THIS
+Reason: otherwise it reads it as an immediate value
+
+~~~ mp3.2 ~~~
+Bug: Page fault exception
+Where: read_data
+Error 1: was dereferencing an address twice
+Error 2: when adding with uint_32t, adding 1 is equivalent to adding 4B, NOT 1B (be aware of struct size) -> this literally shows up everywhere
+Error 3: buffer passed in is of int8_t. In read_data, writing 32 bits each time.
+Error 4: if statement default is positive number, NOT 0. (e.g. if (var) evaluates to true if var > 0)
+
+Bug: printing out right characters, but a jumbled mess
+Error 1: forgot that data is stored in little endian (little end first)
+Error 2: also don't need to manually enter new line, this is included in the files
